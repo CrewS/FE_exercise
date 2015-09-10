@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <script type="text/javascript">
+        var proxy="http://localhost:63342/FE_exercise/Access_Control/proxyIframe.html";
+        var fn="callback";
+        var picload =function(){
+            var xml=new XMLHttpRequest();
+            var url="http://localhost:8080/show.php?proxy="+proxy+"&callback="+fn;
+            var methods="POST";
+            xml.onreadystatechange=function(){
+                if(xml.readyState==4 && xml.status==200){
+                    document.getElementById("clickme").innerHTML="1234";
+                }
+                else{
+                    console.log("连接失败")
+                }
+            };
+            xml.open(methods,url,true);
+            xml.send();
+
+        };
+        //回调函数
+        function callback(data){
+            console.log("成功接收数据: "+data)
+
+        }
+        //表单可以action过去
+        //ajax的GET、POST请求不行 会出现跨域限制 测试:h1的picload()
+        //--------------------------------------------------------------------------------------
+        //原理：
+        //通过form表单action到服务器，服务器端重定向iframe页面，URL携带数据，然后由iframe 读取数据，调用父级回调函数 完成跨域请求
+        //---------------------------------------------------------------------------------------
+        //重要知识点(可继续补充)
+        //1:Javascript的location.search 获取当前页面的url信息
+        //2:iFrame的父级函数调用
+        //3.父级页面可action到跨域页面｛需要重新复习一遍表单知识-value|submit|action|methods｝
+
+
+        //附录1:example参考了javascript设计模式P82页
+        //附录2:服务器端代码:
+        //文件名:show.php
+        //<?php
+        //$proxy=$_POST["proxy"];
+        //$callback =$_POST["callback"];
+        //header("Location: ".$proxy."?callback=".$callback."&arg=sucess");
+        //?>
+        //附录3:实验环境:静态页面端：webstorm;服务器端:wamp;
+
+
+    </script>
+
+    <meta charset="UTF-8">
+    <title></title>
+
+
+
+
+</head>
+<body>
+    <iframe name="proxyIframe" id="proxyIframe" src="proxyIframe.html">
+
+    </iframe>
+
+
+    <h1 id="clickme" onclick="picload()">点击我获取图片</h1>
+    <form action="http://localhost:8080/show.php" method="post" target="proxyIframe">
+        <input type="text" name="callback" value="callback">
+        <input type="text" name="proxy" value="http://localhost:63342/FE_exercise/Access_Control/proxyIframe.html">
+        <input type="submit" value="submit">
+    </form>
+
+
+
+
+
+
+</body>
+</html>
