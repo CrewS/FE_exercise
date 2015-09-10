@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="some_example_for_js.js">
+
+</script>
+<script type="text/javascript">
+    function objcreate(o){
+        var F = function(){
+        };
+        F.prototype=o;
+        return new F();
+    }
+    var book ={name:"js book",year:"1993",data:['1','2']};
+    var book1= objcreate(book);
+    var book2= objcreate(book);
+    console.log(book1.name+" "+book1.year+" "+book1.data);
+    book1.name="css book";
+    console.log(book1.name);
+    console.log(Math.abs(~2016));
+
+
+
+</script>
+
+<title>无标题文档</title>
+</head>
+
+<body>
+
+	<div id="hello">
+	</div>
+
+</body>
+</html>
