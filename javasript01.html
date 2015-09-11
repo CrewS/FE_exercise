@@ -2,9 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="some_example_for_js.js">
-
-</script>
 <script type="text/javascript">
     function objcreate(o){
         var F = function(){
@@ -15,10 +12,37 @@
     var book ={name:"js book",year:"1993",data:['1','2']};
     var book1= objcreate(book);
     var book2= objcreate(book);
-    console.log(book1.name+" "+book1.year+" "+book1.data);
-    book1.name="css book";
-    console.log(book1.name);
-    console.log(Math.abs(~2016));
+    // console.log(book1.name+" "+book1.year+" "+book1.data);
+    //book1.name="css book";
+    //console.log(book1.name);
+    //console.log(Math.abs(~2016));
+
+    var t=function(){
+        var test=[];
+        function create(){
+            test.push("1");
+            console.log(test.length)
+        }
+        return{
+            getD:function(){
+                //console.log(test.length<5);
+                //console.log(test.length);
+                if(test.length < 5){
+                    //console.log("1");
+                    return create();
+
+                }
+                else{
+                    return test;
+                }
+            }
+        }
+
+    }()
+    var a= t.getD();
+    console.log(a);
+
+
 
 
 

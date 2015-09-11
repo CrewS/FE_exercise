@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript">
+        var lch=function(){};
+        (function(){
+            if(window.XMLHttpRequest){
+              lch.xmlhttp=new XMLHttpRequest();
+            }
+            else{
+               lch.xmlhttp= new ActiveXobject("Microsoft.XMLHTTP");
+            }
+        })();
+        //Ajax的优化
+        var getImg=function(){
+            //document.getElementById("loadImg")
+
+            var imgDom=document.getElementById("img")
+            if(imgDom.style.display=="none"){
+                imgDom.style.display="block";
+                imgDom.src="http://b.zol-img.com.cn/desk/bizhi/image/6/2560x1600/1441938430568.jpg";
+                imgDom.onload=function(){
+                    console.log("111");
+                }
+
+            }
+            else{
+                imgDom.style.display="none";
+                imgDom.onload=function(){
+                    console.log("2222");
+                }
+            }
+
+        }
+        //延迟加载，当点击时候才发生真正的图片请求，适用场景：图片数量太多；
+        //lazyLoad：用指定图片用作占位符，然后真正地址写在用户可视区域的时候才加载
+        //代理加载（未编写）
+
+
+    </script>
+</head>
+<body>
+    <li id="loadImg" onclick="getImg()">点击我看图片</li>
+    <img src="" style="display: none" id="img">
+
+
+</body>
+</html>
