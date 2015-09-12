@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript">
+        window.onload=function(){
+            //var Dom=document.getElementsByClassName("nav")
+            var ulDom=document.getElementById("nav").getElementsByTagName("li");
+            var divDom=document.getElementsByClassName("tab");
+            console.log(1111);
+            for(var i=0;i<ulDom.length;i++){
+                (function(li,num){
+                    li.onclick=function(){
+                        for(var i=0;i<ulDom.length;i++){
+                            ulDom[i].className="";
+                        }
+                        ulDom[num].className="select";
+                        for(var i=0;i<divDom.length;i++){
+                            divDom[i].className="tab hidden";
+                        }
+                        divDom[num].className="tab";
+                    }
+                })(ulDom[i],i)
+
+            }
+        }
+        //起初调试BUG用了好久时间..Cannot read property 'getElementsByTagName' of undefined[NULL异常]
+        //简单的说就是ulDom => [null] 在console上调试document.getElementById("nav").getElementsByTagName("li")是可以的
+        //不过在代码里面出错，然后我用在了loadImg页面上 发现却可以
+        //后来尝试把代码放页脚 ，出现了有时可以有时不行状态
+        //最终找到BUG所在 就是在window还没加载完就开始运行了这段代码 然后文档结构都没有当然会出现null的情况
+        //误区1:页面加载过程 还不是完全掌握[在加载过程就已经运行了代码因为我写的是(fn)()形式 自动调用匿名函数]
+        //误区2:console与页面代码一致;关于document操作的情况，console的代码和 页面内JS代码运行可能会出现误差
+
+    </script>
+    <style type="text/css">
+        *{ padding: 0; margin: 0;}
+        body{ width: 100%; min-height:800px;}
+        li{list-style: none;}
+        #warp{ width: 300px; height: 300px; position: relative;margin-top: 150px; left: 50%; margin-left: -150px;}
+        .nav{ width: 300px; overflow: hidden; border: 1px solid gray;}
+        .nav li{ float: left; height: 30px; width: 100px; line-height: 30px; text-align: center;
+        cursor: pointer;
+        }
+        .select{ background: green;}
+        .tab{ height: 270px; border: 1px solid gray; border-top: none; width: 300px;}
+        .hidden{ display:none;}
+
+    </style>
+</head>
+<body>
+    <div id="warp">
+         <ul id="nav" class="nav">
+             <li class="select">综合</li>
+             <li>新闻</li>
+             <li>活动</li>
+         </ul>
+         <div class="tab">
+             1
+         </div>
+         <div class="tab hidden">
+            2
+         </div>
+         <div class="tab hidden">
+            3
+         </div>
+    </div>
+</body>
+</html>
