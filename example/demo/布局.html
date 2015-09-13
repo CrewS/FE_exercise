@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        .example1{ overflow: hidden;}
+        .main,.subMain,.subRight{ padding-bottom: 5000px; margin-bottom: -5000px; background-color: #D6D6D6;}
+        .main{ width: 100%; height: 300px; float: left;}
+            .subMain{ margin: 0 200px; height: auto;}
+        .sub{ margin-left: -100%; width: 200px; height: 300px; background-color:#77BBDD; float: left;}
+        .subRight{ margin-left:-200px;width: 200px; height: 300px; background-color:#E79F6D; float: left;}
+        /*example1*/
+        /*
+        双飞翼布局 左列 主列 附加列
+        文档顺序即页面加载顺序
+        主列在前则优先加载主列
+        因为main是占总宽的所以会被左右两列遮罩
+        所以会有子warp 作为内容容器
+
+
+
+
+        */
+
+        .example2{ overflow: hidden;}
+        .example2 div{ }
+            .left,.right{ padding-bottom: 2000px; margin-bottom: -2000px;}
+            .left{ width:100%; background-color: gray; float: left;height: 300px;}
+                .leftC{width: 100%; margin-left: 200px;}
+            .right{ width: 200px; background-color: burlywood; float: left; margin-left: -100%;}
+
+        /*example2*/
+        /*
+        高度一致性！
+        left原本是没有高度的
+        但是设置CSS后 将会随right高度变化而变化
+
+
+        */
+    </style>
+
+
+</head>
+<body>
+    <div class="example1">
+        <div class="main">
+            <div class="subMain">
+                11
+            </div>
+        </div>
+        <div class="sub"></div>
+        <div class="subRight"></div>
+    </div>
+    <div class="example2">
+        <div class="left">
+            <div class="leftC">
+                111
+            </div>
+        </div>
+        <div class="right">2</div>
+    </div>
+</body>
+</html>

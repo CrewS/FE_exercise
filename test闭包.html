@@ -22,6 +22,20 @@
                }
            }
        })();
+       var foo=function(){
+           var a={'data':'1'};
+           return function(){
+               console.log(a['data']);
+               a['data']++;
+           }
+       };
+       //在闭包情况下 变量a在值 和引用变量情况下 都是一样的
+       var c1=foo();
+       var c2=foo();
+        c1();
+        c1();
+        c2();
+
     </script>
     <title></title>
 </head>

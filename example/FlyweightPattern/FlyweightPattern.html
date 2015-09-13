@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+        var Flyweight =function(){
+            var created=[];
+            function create(){
+                var dom=document.createElement("div");
+                document.getElementById("container").appendChild(dom);
+                created.push(dom);
+                return dom;
+            }
+            return {
+                getDiv:function(){
+                    if(created.length<5){
+                        return create();
+                    }
+                    else{
+                        var div=created.shift();
+                        created.push(div);
+                        return div;
+                    }
+                }
+            }
+        }();
+        window.onload=function(){
+            var article=[];
+            for(var i=0;i<10;i++){
+                article[i]="这是第"+(i+1)+"篇文章";
+            }
+            (function(article){
+                var paper = 0,num= 5,len=article.length;
+                for(var i=0;i<5;i++){
+                    if(article[i]){
+                        Flyweight.getDiv().innerHTML=article[i];
+                    }
+                }
+                document.getElementById('next_page').onclick=function(){
+                    if(article.length<5){
+                        return;
+                    }
+                    var n=++paper*num%len,j=0;
+                    for(;j<5;j++){
+                        if(article[n+j]){
+                            Flyweight.getDiv().innerHTML=article[n+j];
+                        }else if(article[n+j-len]){
+                            Flyweight.getDiv().innerHTML=article[n+j-len];
+                        }else{
+                            Flyweight.getDiv().innerHTML="";
+                        }
+                    }
+                }
+
+
+            })(article)
+        }
+
+
+
+
+
+
+    </script>
+    <style type="text/css">
+        #container{}
+        #container div{ height: 30px; width: 300px; font-size: 16px;}
+        #next_page{width: 50px; height: 50px; cursor: pointer;}
+    </style>
+    <title></title>
+</head>
+<body>
+    <div class="warp">
+        <div id="container">
+
+        </div>
+        <div id="next_page">下一页</div>
+    </div>
+</body>
+</html>

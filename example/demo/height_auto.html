@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .fa{ width: 300px; background-color:gray; overflow: hidden;/*overflow:hidden触发BFC 兼容chrome firefox ie9+*/}
+        #fa-left{ height: 300px; width: 200px; border: 1px solid black; float: left; background-color: green;}
+        #fa-right{ height: 200px; width: 60px; border: 1px solid black; float: right; background-color: gold;}
+    </style>
+</head>
+<body>
+    <div class="fa">
+        <div id="fa-left">1</div>
+        <div id="fa-right">2</div>
+    </div>
+</body>
+</html>
