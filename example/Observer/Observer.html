@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript">
+        var Observer=(function(){
+            var _messges={};
+            return{
+                register:function(type,fn){
+                    if(_messges[type]==undefined){
+                        _messges[type]=[fn];
+                    }
+                    else{
+                        _messges[type].push(fn);
+                    }
+                },
+                fire:function(type,args){
+                    if(_messges[type]==undefined) return 0;
+
+                    var events={
+                        type:type,
+                        args:args||{}
+                    };
+                    var i= 0,len=_messges[type].length;
+                    for(;i<len;i++){
+                        _messges[type][i].call(this,events);//调用这一段不太懂
+                    }
+                },
+
+                remove:function(type,fn){
+                    if(_messges[type] instanceof Array){
+                        var i=_messges[type].length-1;
+                        for(;i>=0;i--){
+                            _messges[type][i]===fn&&_messges[type].splice(i,1);
+                        }
+                    }
+
+                }
+
+
+            }
+        })();
+
+        var Student=function(result){
+            var that=this;
+            that.result=result;
+            that.say=function(){
+                console.log(that.result);
+            }
+        };
+        Student.prototype.ans=function(question){
+            Observer.register(question,this.say);
+        };
+        Student.prototype.sleep=function(question){
+            console.log(this.result+ '' +question+' 已注销')
+            Observer.remove(question,this.say);
+        };
+        var Teacher=function(){
+
+        };
+        Teacher.prototype.ask=function(question){
+            console.log('问题是 :'+question);
+            Observer.fire(question);
+        };
+        var student1= new Student('学生1回答问题'),
+                student2= new Student('学生2回答问题'),
+                student3= new Student('学生3回答问题');
+        student1.ans('什么是设计模式');
+        student2.ans('什么是设计模式');
+        student3.ans('什么是设计模式');
+        student1.ans('简述W3C');
+        student2.ans('简述W3C');
+        student3.ans('简述W3C');
+        student3.sleep('简述W3C');
+
+        var teacher=new Teacher();
+        teacher.ask('简述W3C');
+        console.log('-------分界符---------');
+        teacher.ask('什么是设计模式');
+
+//console=>
+//        学生3回答问题简述W3C 已注销
+//        Observer.html:63 问题是 :简述W3C
+//        Observer.html:49 学生1回答问题
+//        Observer.html:49 学生2回答问题
+//        Observer.html:79 -------分界符---------
+//                Observer.html:63 问题是 :什么是设计模式
+//        Observer.html:49 学生1回答问题
+//        Observer.html:49 学生2回答问题
+//        Observer.html:49 学生3回答问题
+
+//_messages是一个消息列表 然后有type fn
+//当消息发布的时候就会触发 call()调用消息[---存疑---]
+//解耦了对象与对象之间
+
+
+
+
+
+//test测试  条件&&表达式 => 简写if语句
+//        (function(){
+//            var a=1;
+//            var b=0;
+//            a&&console.log("1111");
+//            b&&console.log("0000");
+//
+//        })()
+
+    </script>
+
+
+
+</head>
+<body>
+
+</body>
+</html>
