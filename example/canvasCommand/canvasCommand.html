@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <style>
+        #canvas{ position: fixed;top:50%;left: 50%; margin-left: -155px; margin-top: -155px;}
+    </style>
+</head>
+<body>
+     <canvas id="canvas" width="310" height="310"></canvas>
+
+
+
+     <script type="text/javascript">
+         window.onload=function() {
+             var CanvasCommand = (function () {
+
+                 var canvas = document.getElementById('canvas');
+                 var ctx = canvas.getContext('2d');
+                 var Action = {
+                     fillStyle: function (c) {
+                         ctx.fillStyle = c;
+                         console.log(c);
+                     },
+                     fillRect: function (x, y, width, height) {
+                         ctx.fillRect(x, y, width, height);
+                     },
+                     strokeStyle: function (c) {
+                         ctx.strokeStyle = c;
+                     },
+                     strokeRect: function (x, y, width, height) {
+                         ctx.strokeRect(x, y, width, height);
+                     },
+                     fillText: function (text, x, y) {
+                         ctx.fillText(text, x, y);
+                     },
+                     beginPath: function () {
+                         ctx.beginPath();
+                     },
+                     moveTo: function (x, y) {
+                         ctx.moveTo(x, y);
+                     },
+                     lineTo: function (x, y) {
+                         ctx.lineTo(x, y);
+                     },
+                     arc: function (x, y, r, begin, end, dir) {
+                         ctx.arc(x, y, r, begin, end, dir);
+                         console.log(x+" "+y+" "+r);
+                     },
+                     fill: function (x) {
+                         ctx.fillStyle=x;
+                         ctx.fill();
+                     },
+                     stroke: function () {
+                         ctx.stroke();
+                     },
+                     close: function(){
+                         ctx.closePath();
+                     },
+                     rotate:function(x){
+                         ctx.rotate(x);
+                     },
+                     translate:function(x,y){
+                         ctx.translate(x,y);
+                     }
+                 };
+                 return{
+                     excute: function (msg) {
+                         if (!msg)return;
+                         if (msg.length) {
+                             for (var i = 0, len = msg.length; i < len; i++) {
+                                 arguments.callee(msg[i]);
+                             }
+                         } else {
+
+                             if(msg.param) {
+                                 console.log(msg);
+                                 msg.param = Object.prototype.toString.call(msg.param) === "[object Array]" ? msg.param : [msg.param];
+                                 Action[msg.command].apply(Action, msg.param);
+                             }
+                             else{
+                                 console.log(msg.command);
+                                 Action[msg.command].call(Action);
+                             }
+                         }
+                     }
+                 }
+             })();
+             CanvasCommand.excute([
+                 {command: 'translate',param:[155,155]},
+                 {command: 'beginPath'},
+                 //{command: 'fillRect', param: [20,20,100,100]}
+                 {command: 'arc', param:[0,0,150,0,2*Math.PI,true]},
+                 {command: 'stroke'},
+                 //{command: 'close'},
+
+                 //{command: 'fill', param: 'red'}
+                 //{command: 'beginPath',param:""}
+             ]);
+             var exc=function(command,param){
+                 CanvasCommand.excute([{command:command,param:param}]);
+             };
+             var line=function(a,b){
+                   exc("moveTo", [a.x, a.y]);
+                   exc("lineTo", [b.x, b.y]);
+                   exc("stroke");
+             };
+             var ox=155,oy=155;//圆心位置
+             var r=150;
+             var scal=30;
+             var sr=(1/60)*Math.PI*2;
+             exc("beginPath","");
+             exc("arc",[0,0,10,0,Math.PI*2,true]);
+             exc("fill","black");
+             exc("close","");
+             for(var i=0;i<60;i++) {
+                 line({x:r-scal,y:0}, {x:r,y:0});
+                 exc("rotate",sr)
+             }
+
+
+
+
+
+         };
+
+     </script>
+</body>
+</html>
