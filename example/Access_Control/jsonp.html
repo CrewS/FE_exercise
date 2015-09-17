@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+        function jsonpCallBack(res,req){
+            console.log(res,req)
+        }
+    </script>
+    <script type="text/javascript" src="http://localhost:8080/jsonp.php?callback=jsonpCallBack&data=getJsonPData">
+    //通过利用<script> src可以GET请求 然后echo 回来一个 funtion() 完成了一个回调 实现了跨区请求
+    //测试了img的src并不会 实现jsonp的方式
+    </script>
+    <title></title>
+</head>
+<body>
+</body>
+</html>

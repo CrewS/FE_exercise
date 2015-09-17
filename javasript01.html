@@ -39,8 +39,21 @@
         }
 
     }()
-    var a= t.getD();
-    console.log(a);
+    //var a= t.getD();
+    //console.log(a);
+    var a=function(){
+        var s=function(){
+            return "123";
+        }
+        return{
+           s:function(){
+               var s=s();
+               console.log(s)
+           }
+        }
+
+    }();
+    a.s();
 
 
 
