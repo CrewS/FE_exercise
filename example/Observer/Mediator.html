@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+        var Mediator =function(){
+            var _msg={};
+            return{
+                register:function(type,fn){
+                    if(_msg[type]){
+                        _msg[type].push(fn);
+                    }
+                    else{
+                        _msg[type]=[];
+                        _msg[type].push(fn);
+                    }
+                },
+                send:function(type,fn){
+                    if(_msg[type]){
+                        for(var i= 0,len=_msg[type].length;i<len;i++){
+                            _msg[type][i]&& _msg[type][i]();
+                        }
+                    }
+                }
+            }
+        }();
+//单元测试
+//        Mediator.register('demo',function(){
+//            console.log('1111')
+//        });
+//        Mediator.register('demo',function(){
+//            console.log('2222')
+//        });
+//        Mediator.send('demo')
+
+
+
+        window.onload=function(){
+            var moveDiv=function(){
+                var dom=document.getElementById("moveBox");
+                //console.log(dom);
+                return{
+                    left:function(){
+                        var leftV=getComputedStyle(dom,false)['left'];
+                        dom.style.left=(parseInt(leftV.slice(0,leftV.length-2))-10)+"px";
+                        //console.log(dom.style.Left);
+                    },
+                    up:function(){
+                        var leftV=getComputedStyle(dom,false)['top'];
+                        dom.style.top=(parseInt(leftV.slice(0,leftV.length-2))-10)+"px";
+                        //console.log(dom.style.Left);
+                    },
+                    right:function(){
+                        var leftV=getComputedStyle(dom,false)['left'];
+                        dom.style.left=(parseInt(leftV.slice(0,leftV.length-2))+10)+"px";
+                        //console.log(dom.style.Left);
+                    },
+                    down:function(){
+                        var leftV=getComputedStyle(dom,false)['top'];
+                        dom.style.top=(parseInt(leftV.slice(0,leftV.length-2))+10)+"px";
+                        //console.log(dom.style.Left);
+                    }
+                }
+            }();
+            //行为表现这个写得太烂了@review
+            //
+            Mediator.register('left',moveDiv.left);
+            Mediator.register('up',moveDiv.up);
+            Mediator.register('right',moveDiv.right);
+            Mediator.register('down',moveDiv.down);
+
+            var btn=document.getElementById("ct").getElementsByTagName("div");
+            for(var i=0;i<4;i++){
+                //console.log(btn[i]);
+                (function(){
+                    btn[i].onclick=function(){
+                        var fn=this.className;
+                        console.log(fn);
+                        Mediator.send(fn);
+                    }
+                })()
+            }
+
+
+        }
+
+
+
+
+    </script>
+    <title></title>
+    <style type="text/css">
+        #moveBox{ height: 200px; width: 200px; position:absolute;left:50px; top:50px; background: green;}
+        #ct{ width: 170px; height: 50px; position: absolute;bottom: 20%;right: 20%;}
+            #ct div{ height: 50px; width: 50px; float: left; background: #E79F6D; margin-right: 5px; text-align: center; line-height: 50px; cursor: pointer;}
+            #ct div:hover{ border: 1px solid yellow; }
+                #ct div.up{ position: absolute;top:-55px;left: 55px;}
+    </style>
+</head>
+<body>
+    <div id="moveBox">
+
+    </div>
+    <div id="ct">
+        <div class="left">←</div>
+        <div class="down">↓</div>
+        <div class="right">→</div>
+        <div class="up">↑</div>
+    </div>
+</body>
+</html>
