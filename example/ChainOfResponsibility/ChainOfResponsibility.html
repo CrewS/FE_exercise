@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript">
+        var sendData =function(data,dealType,dom){
+            var xhr =new XMLHttpRequest(),url='getData.php?mod=userInfo';
+            xhr.onload=function(event){
+                if(xhr.status>=200&&xhr.status<300||xhr.status==304){
+                    dealData(xhr.responseText,dealType,dom);
+                }else{
+                    //
+                }
+            };
+            for(var i in data){
+                url +='&'+i+'='+data;
+            }
+            xhr.open("get",url,true);
+            xhr.send(null);
+        };
+        var dealData=function(data,dealTpye,dom){
+            var dataType=Object.prototype.toString.call(data);
+            switch (dealTpye){
+                case 'sug':
+                    if(dataType==="[object Array]"){
+                        return createSug(data,dom);
+                    }
+                    if(dataType==="[object Object]"){
+                        var newData=[];
+                        for(var i in data){ newData.push(data[i]);}
+                        return createSug(newData,dom);
+                    }
+                    return createSug([data],dom);
+                    break;
+                case 'validate':
+                    return createValidataResult(data,dom);
+                    break;
+
+            }
+        };
+        var createSug=function(data,dom){
+            var i= 0,len=data.length,html="";
+            for(;i<len;i++){
+                html+='<li>'+data[i]+'</li>';
+            }
+            dom.parentNode.getElementsByTagName('ul')[0].innerHTML=html;
+        };
+        var createValidataResult=function(data,dom){
+            dom.parentNode.getElementsByTagName('span')[0].innerHTML=data;
+        };
+        window.onload=function(){
+            var dom=document.getElementById("test");
+            dealData(['嘻嘻','哈哈','呜呜'],'sug',dom);
+            var input1=document.getElementById("tip");
+            dealData("输入错误",'validate',input1);
+        };
+
+
+    </script>
+</head>
+<body>
+    <ul>
+    </ul>
+    <div id="test">
+
+    </div>
+    <div>
+        <input type="text" value="test" id="tip">
+        <span>tip</span>
+    </div>
+
+
+</body>
+</html>
